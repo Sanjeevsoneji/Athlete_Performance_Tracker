@@ -1,0 +1,31 @@
+type AthletePerformance = record {
+  id : nat64;
+  updated_at : opt nat64;
+  athlete_name : text;
+  performance_metrics : text;
+  created_at : nat64;
+  sport : text;
+  achievements : vec text;
+};
+type AthleteUpdatePayload = record {
+  athlete_name : text;
+  performance_metrics : text;
+  sport : text;
+  achievements : vec text;
+};
+type Error = variant { NotFound : record { msg : text } };
+type Result = variant { Ok : AthletePerformance; Err : Error };
+type Result_1 = variant { Ok : nat64; Err : Error };
+service : {
+  add_athlete_performance : (AthleteUpdatePayload) -> (opt AthletePerformance);
+  delete_athlete_performance : (nat64) -> (Result);
+  get_all_athlete_performances : () -> (vec AthletePerformance) query;
+  get_athlete_count : () -> (Result_1) query;
+  get_athlete_performance : (nat64) -> (Result) query;
+  get_recently_updated_athletes : () -> (vec AthletePerformance) query;
+  search_athlete_by_achievements : (text) -> (vec AthletePerformance) query;
+  search_athlete_by_name : (text) -> (vec AthletePerformance) query;
+  search_athlete_by_sport : (text) -> (vec AthletePerformance) query;
+  update_athlete_achievements : (nat64, vec text) -> (Result);
+  update_athlete_performance : (nat64, AthleteUpdatePayload) -> (Result);
+}
